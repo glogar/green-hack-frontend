@@ -99,7 +99,7 @@
         ></l-polyline> -->
       </l-map>
     </v-sheet>
-    <v-container fluid fill-height>
+    <v-container v-else fluid fill-height>
       <v-row justify="center" align="center">
         <v-col class="text-center"
           ><v-progress-circular color="primary" indeterminate size="64"
