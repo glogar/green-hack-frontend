@@ -82,6 +82,8 @@
           :key="`MOVEMENT${movement.id}`"
           :lat-lngs="returnLine(movement)"
           color="blue"
+          :opacity="0.2"
+          line-cap="arrow"
         ></l-polyline>
         <l-marker
           v-for="breeding in returnBreedings"
