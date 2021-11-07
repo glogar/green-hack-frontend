@@ -1,5 +1,5 @@
 <template>
-  <WebMap />
+  <Settings />
 </template>
 
 <script>

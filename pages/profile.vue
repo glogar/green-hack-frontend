@@ -1,5 +1,5 @@
 <template>
-  <WebMap />
+  <Profile />
 </template>
 
 <script>
