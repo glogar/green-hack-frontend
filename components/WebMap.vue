@@ -188,9 +188,9 @@ export default {
   computed: {
     returnStyle() {
       if (this.$vuetify.breakpoint.smAndDown) {
-        return 'height: 84.2vh'
+        return 'height: 87.2vh'
       }
-      return 'height: 86.29vh'
+      return 'height: 88.88vh'
     },
     icon() {
       return {

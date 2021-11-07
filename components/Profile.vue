@@ -41,7 +41,7 @@
             <v-data-table
               :headers="[
                 {
-                  text: 'Behive ID',
+                  text: 'Behive loc ID',
                   align: 'center',
                   sortable: false,
                   value: 'id',
@@ -71,7 +71,7 @@
               </v-card-title>
 
               <v-card-text class="py-1 px-3">
-                Which beehive are you moving
+                Which beehive are you moving?
               </v-card-text>
               <v-col cols="12">
                 <v-select
