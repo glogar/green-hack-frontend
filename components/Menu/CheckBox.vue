@@ -1,5 +1,7 @@
 <template>
-  <v-checkbox v-model="checkbox" dense hide-details :label="label"></v-checkbox>
+  <v-checkbox v-model="checkbox" dense hide-details :label="label">
+    <template #append><v-img v-if="url" :src="url"></v-img></template>
+  </v-checkbox>
 </template>
 
 <script>
@@ -12,6 +14,10 @@ export default {
     label: {
       type: String,
       required: true,
+    },
+    url: {
+      type: String,
+      default: null,
     },
   },
   data: () => {

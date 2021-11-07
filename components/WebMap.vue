@@ -69,6 +69,20 @@
           </l-popup>
         </l-marker>
 
+        <l-circle-marker
+          v-for="disease in returnDiseases"
+          :key="`DISEASE_${disease.id}`"
+          :lat-lng="[disease.lat, disease.lon]"
+          :radius="returnRadius(disease.radius)"
+          fill-color="red"
+          color="red"
+        />
+        <l-polyline
+          v-for="movement in returnMovements"
+          :key="`MOVEMENT${movement.id}`"
+          :lat-lngs="returnLine(movement)"
+          color="blue"
+        ></l-polyline>
         <l-marker
           v-for="breeding in returnBreedings"
           :key="`BREEDING_${breeding.id}`"
@@ -87,7 +101,9 @@
     </v-sheet>
     <v-container fluid fill-height>
       <v-row justify="center" align="center">
-        <v-progress-circular color="primary" indeterminate size="64" />
+        <v-col class="text-center"
+          ><v-progress-circular color="primary" indeterminate size="64"
+        /></v-col>
       </v-row>
     </v-container>
   </Wrapper>
@@ -102,6 +118,8 @@ export default {
         beehives: [],
         apiaryStands: [],
         breedings: [],
+        diseases: [],
+        migrations: [],
       },
       map: {
         zoom: 9,
@@ -111,7 +129,7 @@ export default {
         zoomControl: false,
       },
       filter: {
-        beehives: false,
+        beehives: true,
         apiaryStands: false,
         breedings: false,
         afb: false,
@@ -166,6 +184,16 @@ export default {
       console.log('breedings')
       console.log(this.data.breedings)
     })
+    await this.$axios.get('/diseases/?limit=20').then((res) => {
+      this.data.diseases = res.data
+      console.log('diseases')
+      console.log(this.data.diseases)
+    })
+    await this.$axios.get('/movements/?limit=1000').then((res) => {
+      this.data.movements = res.data
+      console.log('movements')
+      console.log(this.data.movements)
+    })
   },
   computed: {
     returnStyle() {
@@ -180,6 +208,7 @@ export default {
         anchor: [16, 37],
       }
     },
+
     returnBeehives() {
       return this.filter.beehives ? this.data.beehives : []
     },
@@ -189,10 +218,43 @@ export default {
     returnApiaryStands() {
       return this.filter.apiaryStands ? this.data.apiaryStands : []
     },
+    returnDiseases() {
+      return this.filter.afb ? this.data.diseases : []
+    },
+    returnMovements() {
+      if (this.filter.migrations.value) {
+        let movements = this.data.movements
+        if (this.filter.migrations.from) {
+          movements = movements.filter((movement) => {
+            return movement.date >= this.filter.migrations.from
+          })
+        }
+        if (this.filter.migrations.to) {
+          movements = movements.filter((movement) => {
+            return movement.date < this.filter.migrations.to
+          })
+        }
+        return movements
+      } else {
+        return []
+      }
+    },
   },
   methods: {
     centerUpdated(center) {
       this.center = center
+    },
+    returnRadius(item) {
+      const value = 10 * this.map.zoom
+
+      const radius = item / value
+      return radius
+    },
+    returnLine(item) {
+      return [
+        [item.start_lat, item.start_lon],
+        [item.end_lat, item.end_lon],
+      ]
     },
   },
 }

@@ -35,9 +35,21 @@
       >
       <v-list dense class="px-1 pb-2">
         <v-list-item-group color="primary">
-          <MenuCheckBox v-model="filter.beehives" label="Beehives" />
-          <MenuCheckBox v-model="filter.apiaryStands" label="Apiary stands" />
-          <MenuCheckBox v-model="filter.breedings" label="Breeding farms" />
+          <MenuCheckBox
+            v-model="filter.beehives"
+            label="Beehives"
+            url="https://priot.io/img/icons/icn_beehive.svg"
+          />
+          <MenuCheckBox
+            v-model="filter.apiaryStands"
+            label="Apiary stands"
+            url="https://priot.io/img/icons/icn_apiary_stand.svg"
+          />
+          <MenuCheckBox
+            v-model="filter.breedings"
+            label="Breeding farms"
+            url="https://priot.io/img/icons/icn_queens.svg"
+          />
           <MenuCheckBox v-model="filter.afb" label="American foulbrood (AFB)" />
 
           <v-divider class="my-2" />
@@ -63,6 +75,7 @@
                       solo
                       prepend-inner-icon="event"
                       readonly
+                      clearable
                       :disabled="!filter.migrations.value"
                       hide-details
                       v-bind="attrs"
@@ -81,6 +94,7 @@
                       label="To"
                       dense
                       solo
+                      clearable
                       :disabled="!filter.migrations.value"
                       prepend-inner-icon="event"
                       readonly
