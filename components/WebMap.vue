@@ -171,28 +171,18 @@ export default {
   async fetch() {
     await this.$axios.get('/beehives/?skip=1000&limit=250').then((res) => {
       this.data.beehives = res.data
-      console.log('behives')
-      console.log(this.data.beehives)
     })
     await this.$axios.get('/beestands/?skip=600&limit=250').then((res) => {
       this.data.apiaryStands = res.data
-      console.log('stands')
-      console.log(this.data.apiaryStands)
     })
     await this.$axios.get('/breedings/?limit=150').then((res) => {
       this.data.breedings = res.data
-      console.log('breedings')
-      console.log(this.data.breedings)
     })
     await this.$axios.get('/diseases/?limit=20').then((res) => {
       this.data.diseases = res.data
-      console.log('diseases')
-      console.log(this.data.diseases)
     })
     await this.$axios.get('/movements/?limit=1000').then((res) => {
       this.data.movements = res.data
-      console.log('movements')
-      console.log(this.data.movements)
     })
   },
   computed: {
