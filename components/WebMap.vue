@@ -37,7 +37,7 @@
         </l-control>
 
         <l-marker
-          v-for="beehive in data.beehives"
+          v-for="beehive in returnBeehives"
           :key="`HIVE_${beehive.id}`"
           :lat-lng="[beehive.lat, beehive.lon]"
           :icon="beehiveIcon"
@@ -49,11 +49,11 @@
               className: 'ma-0',
             }"
           >
-            <Popup />
+            <Popup :item="beehive" />
           </l-popup>
         </l-marker>
         <l-marker
-          v-for="apiary in data.apiaryStands"
+          v-for="apiary in returnApiaryStands"
           :key="`STAND_${apiary.id}`"
           :lat-lng="[apiary.lat, apiary.lon]"
           :icon="apiaryStandIcon"
@@ -65,12 +65,12 @@
               className: 'ma-0',
             }"
           >
-            <Popup stand />
+            <Popup stand :item="apiary" />
           </l-popup>
         </l-marker>
 
         <l-marker
-          v-for="breeding in data.breedings"
+          v-for="breeding in returnBreedings"
           :key="`BREEDING_${breeding.id}`"
           :lat-lng="[breeding.lat, breeding.lon]"
           :icon="breedingIcon"
@@ -94,11 +94,6 @@
 </template>
 
 <script>
-// https://cdn-icons.flaticon.com/png/512/2129/premium/2129718.png?token=exp=1636240004~hmac=b6f0b36045242d16b244addee62f6c41
-// https://cdn-icons.flaticon.com/png/512/1549/premium/1549346.png?token=exp=1636239852~hmac=a0e58f572932978329d71399e56cdeb5
-// https://cdn-icons-png.flaticon.com/512/656/656330.png
-
-// import { L } from 'leaflet'
 import { icon } from 'leaflet'
 export default {
   data: () => {
@@ -118,8 +113,8 @@ export default {
       filter: {
         beehives: false,
         apiaryStands: false,
+        breedings: false,
         afb: false,
-        breeding: false,
         migrations: {
           value: false,
           from: '',
@@ -133,18 +128,18 @@ export default {
       },
       beehiveIcon: icon({
         iconUrl: 'https://priot.io/img/icons/icn_beehive.svg',
-        iconSize: [19, 25],
-        iconAnchor: [10, -5],
+        iconSize: [15, 20],
+        iconAnchor: [10, -15],
       }),
       apiaryStandIcon: icon({
         iconUrl: 'https://priot.io/img/icons/icn_apiary_stand.svg',
-        iconSize: [19, 25],
-        iconAnchor: [10, -5],
+        iconSize: [15, 20],
+        iconAnchor: [10, -15],
       }),
       breedingIcon: icon({
         iconUrl: 'https://priot.io/img/icons/icn_queens.svg',
-        iconSize: [19, 25],
-        iconAnchor: [10, -5],
+        iconSize: [15, 20],
+        iconAnchor: [10, -15],
       }),
 
       // icon: icon({
@@ -156,14 +151,20 @@ export default {
     }
   },
   async fetch() {
-    await this.$axios.get('/beehives/').then((res) => {
+    await this.$axios.get('/beehives/?skip=1000&limit=250').then((res) => {
       this.data.beehives = res.data
+      console.log('behives')
+      console.log(this.data.beehives)
     })
-    await this.$axios.get('/beestands/').then((res) => {
+    await this.$axios.get('/beestands/?skip=600&limit=250').then((res) => {
       this.data.apiaryStands = res.data
+      console.log('stands')
+      console.log(this.data.apiaryStands)
     })
-    await this.$axios.get('/breedings/').then((res) => {
+    await this.$axios.get('/breedings/?limit=150').then((res) => {
       this.data.breedings = res.data
+      console.log('breedings')
+      console.log(this.data.breedings)
     })
   },
   computed: {
@@ -178,6 +179,15 @@ export default {
         size: [19, 25],
         anchor: [16, 37],
       }
+    },
+    returnBeehives() {
+      return this.filter.beehives ? this.data.beehives : []
+    },
+    returnBreedings() {
+      return this.filter.breedings ? this.data.breedings : []
+    },
+    returnApiaryStands() {
+      return this.filter.apiaryStands ? this.data.apiaryStands : []
     },
   },
   methods: {

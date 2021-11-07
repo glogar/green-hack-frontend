@@ -37,8 +37,8 @@
         <v-list-item-group color="primary">
           <MenuCheckBox v-model="filter.beehives" label="Beehives" />
           <MenuCheckBox v-model="filter.apiaryStands" label="Apiary stands" />
+          <MenuCheckBox v-model="filter.breedings" label="Breeding farms" />
           <MenuCheckBox v-model="filter.afb" label="American foulbrood (AFB)" />
-          <MenuCheckBox v-model="filter.breeding" label="Breeding farms" />
 
           <v-divider class="my-2" />
           <v-row no-gutters>

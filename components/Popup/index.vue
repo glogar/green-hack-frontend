@@ -46,10 +46,12 @@
           <span>Location: <b>Sinja gorica</b></span>
         </v-row>
         <v-row class="my-0">
-          <span>ID: <b>378402</b></span></v-row
+          <span
+            >ID: <b>{{ item.id }}</b></span
+          ></v-row
         >
         <v-row class="my-0">
-          <span>46.234513° 37.234235° </span>
+          <span>{{ item.lat }}° {{ item.lon }}° </span>
         </v-row>
         <v-row class="my-0">
           <span>Weather: no</span>
@@ -84,16 +86,18 @@
           <span>Location: <b>Sinja gorica</b></span>
         </v-row>
         <v-row class="my-0">
-          <span>ID: <b>378402</b></span></v-row
+          <span
+            >ID: <b>{{ item.id }}</b></span
+          ></v-row
         >
         <v-row class="my-0">
-          <span>46.234513° 37.234235° </span>
+          <span>{{ item.lat }}° {{ item.lon }}° </span>
         </v-row>
         <v-row class="my-0">
           <span>Weather: no</span>
         </v-row>
         <v-row class="my-0">
-          <span>Availability: 3/10</span>
+          <span>Availability: {{ returnAvailability }}</span>
         </v-row>
         <v-row v-if="window === 'main'" align="center" justify="center">
           <v-btn rounded class="primary my-1" small @click="window = 'report'">
@@ -175,6 +179,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    item: {
+      type: Object,
+      default: null,
+    },
   },
   data: () => {
     return {
@@ -190,6 +198,12 @@ export default {
       },
       slots: 0,
     }
+  },
+  computed: {
+    returnAvailability() {
+      const value = 1 - this.item.occupancy.toFixed(2)
+      return `${value.toFixed(2) * 100}%`
+    },
   },
 }
 </script>
