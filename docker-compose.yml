@@ -1,0 +1,22 @@
+networks:
+  default:
+    external:
+      name: web
+
+services:
+  client:
+    container_name: "${PROJECT_NAME}-client"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: devel
+      args:
+        NODE_VERSION_TAG: "${NODE_VERSION_TAG}"
+    labels:
+      - "traefik.enable=true"
+      # HTTP
+      - "traefik.http.routers.${PROJECT_NAME}_client.entrypoints=websecure"
+      - "traefik.http.routers.${PROJECT_NAME}_client.rule=Host(`${PROJECT_BASE_URL}`)"
+      - "traefik.http.routers.${PROJECT_NAME}_client.tls=true"
+      - "traefik.http.routers.${PROJECT_NAME}_client.tls.certresolver=myresolver"
+      - "traefik.http.services.${PROJECT_NAME}_client.loadbalancer.server.port=3000"
