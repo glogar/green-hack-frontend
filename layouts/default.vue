@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <v-system-bar app class="primary" dark>
-      <span> 15:14</span>
       <v-spacer></v-spacer>
       <v-icon>wifi</v-icon>
       <v-icon>signal_cellular_alt</v-icon>
       <v-icon>battery_full</v-icon>
+      <span> {{ time }}</span>
     </v-system-bar>
     <v-app-bar app flat class="primary" dark dense>
       <v-row no-gutters justify="center">
